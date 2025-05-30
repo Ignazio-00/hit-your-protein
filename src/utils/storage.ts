@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import { UserProfile } from "../types";
 
 const STORAGE_KEYS = {
@@ -5,14 +7,30 @@ const STORAGE_KEYS = {
   VERSION: "hit-protein-version",
 };
 
-const CURRENT_VERSION = "2.0";
+const STORAGE_VERSION = "2.0";
 
+const log = (message: string, data?: any) => {
+  if (import.meta.env.DEV) {
+    console.log(`[Storage] ${message}`, data);
+  }
+};
+
+const logError = (message: string, error: any) => {
+  console.error(`[Storage] ${message}`, error);
+};
+
+/**
+ * Check if we need to clear old data due to version changes
+ */
 function checkVersion(): void {
   const storedVersion = localStorage.getItem(STORAGE_KEYS.VERSION);
-  if (storedVersion !== CURRENT_VERSION) {
-    console.log("Version mismatch, clearing old data...");
+  if (storedVersion !== STORAGE_VERSION) {
+    log("Version mismatch, clearing old data...", {
+      stored: storedVersion,
+      current: STORAGE_VERSION,
+    });
     clearAllData();
-    localStorage.setItem(STORAGE_KEYS.VERSION, CURRENT_VERSION);
+    localStorage.setItem(STORAGE_KEYS.VERSION, STORAGE_VERSION);
   }
 }
 
@@ -23,8 +41,10 @@ export function saveUserProfile(profile: UserProfile): void {
   try {
     checkVersion();
     localStorage.setItem(STORAGE_KEYS.USER_PROFILE, JSON.stringify(profile));
+    log("User profile saved successfully");
   } catch (error) {
-    console.error("Error saving user profile:", error);
+    logError("Error saving user profile", error);
+    throw error;
   }
 }
 
@@ -36,19 +56,21 @@ export function loadUserProfile(): UserProfile | null {
     checkVersion();
 
     const stored = localStorage.getItem(STORAGE_KEYS.USER_PROFILE);
-    if (!stored) return null;
+    if (!stored) {
+      log("No user profile found in storage");
+      return null;
+    }
 
     const parsed = JSON.parse(stored);
 
     // Validate that the stored profile has all required fields
-    if (!parsed.id || !parsed.name || !parsed.weight || !parsed.goal) {
-      console.warn("Invalid user profile in storage, clearing...");
+    if (!parsed.name || !parsed.weight || !parsed.goal) {
+      log("Invalid user profile in storage, clearing...", parsed);
       clearAllData();
       return null;
     }
 
     const cleanProfile: UserProfile = {
-      id: parsed.id,
       name: parsed.name,
       weight: parsed.weight,
       weightUnit: parsed.weightUnit || "lb",
@@ -56,13 +78,12 @@ export function loadUserProfile(): UserProfile | null {
       age: parsed.age,
       gender: parsed.gender,
       goal: parsed.goal,
-      createdAt: parsed.createdAt,
-      updatedAt: parsed.updatedAt,
     };
 
+    log("User profile loaded successfully");
     return cleanProfile;
   } catch (error) {
-    console.error("Error loading user profile:", error);
+    logError("Error loading user profile", error);
     clearAllData();
     return null;
   }
@@ -76,7 +97,8 @@ export function clearAllData(): void {
     Object.values(STORAGE_KEYS).forEach((key) => {
       localStorage.removeItem(key);
     });
+    log("All storage data cleared");
   } catch (error) {
-    console.error("Error clearing data:", error);
+    logError("Error clearing data", error);
   }
 }
