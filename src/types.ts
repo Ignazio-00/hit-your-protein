@@ -5,7 +5,6 @@ export type Gender = "male" | "female";
 export type WeightUnit = "kg" | "lb";
 
 export interface UserProfile {
-  id: string;
   name: string;
   weight: number;
   weightUnit: WeightUnit;
@@ -13,8 +12,6 @@ export interface UserProfile {
   age: number;
   gender: Gender;
   goal: Goal;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface ProteinFactors {
