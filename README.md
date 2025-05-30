@@ -25,7 +25,7 @@ This calculator provides a **single, clear answer**: your daily protein requirem
 
 ## 🧮 Protein Calculation (Based on Research)
 
-The app uses evidence-based protein factors from the provided cheat sheet:
+The app uses evidence-based protein factors:
 
 | Goal                            | Protein per Pound | Example (180 lb person) |
 | ------------------------------- | ----------------- | ----------------------- |
@@ -56,7 +56,7 @@ Examples:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/hit-your-protein.git
+   git clone https://github.com/Ignazio-00/hit-your-protein.git
    cd hit-your-protein
    ```
 
@@ -135,10 +135,6 @@ npm run build
 - **1.0g/lb**: Optimal for most muscle-building goals
 - **1.2g/lb**: For intense training or maximizing muscle growth
 
-### Why Pounds vs Kilograms?
-
-The original research and cheat sheet use pounds as the base unit, making calculations more straightforward for most users while still supporting metric conversion.
-
 ## 🎯 Use Cases
 
 ### Perfect For:
@@ -156,15 +152,6 @@ The original research and cheat sheet use pounds as the base unit, making calcul
 - ❌ Calorie counting
 - ❌ Detailed nutrition analysis
 - ❌ Meal planning beyond protein distribution
-
-## 🚀 Deployment
-
-Ready for deployment on any static hosting platform:
-
-- **Netlify**: Drag and drop the `dist` folder
-- **Vercel**: Connect GitHub repo for auto-deployment
-- **GitHub Pages**: Upload build files
-- **Any static host**: Just serve the built files
 
 ## 📊 Example Calculations
 
@@ -216,12 +203,6 @@ Contributions welcome! Areas for improvement:
 ## 📝 License
 
 MIT License - see LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- Protein calculations based on the provided cheat sheet
-- Sports nutrition research from leading organizations
-- Built with React, TypeScript, and TailwindCSS
 
 ---
 

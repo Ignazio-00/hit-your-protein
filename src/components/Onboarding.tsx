@@ -33,7 +33,6 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
       height: parseFloat(formData.height),
       age: parseInt(formData.age),
       gender: formData.gender,
-      activityLevel: "moderate", // Default value, not used in calculation
       goal: formData.goal,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
